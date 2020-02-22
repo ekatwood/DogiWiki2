@@ -11,6 +11,8 @@ namespace DogiWiki2.Models
 
         public string SortBy { get; set; }
 
+        
+
         public static List<String> FilterList = new List<string>
         {
             "All",
