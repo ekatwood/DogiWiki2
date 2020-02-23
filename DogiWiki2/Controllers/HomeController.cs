@@ -9,11 +9,13 @@ using DogiWiki2.Models;
 
 namespace DogiWiki2.Controllers
 {
+
     public class HomeController : Controller
     {
+
         public ActionResult Index()
         {
-            List<String> imagesList = new List<string>();
+            List<Tuple<string, string, string>> imagesList = new List<Tuple<string, string, string>>();
 
             string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf;Integrated Security=True";
             string queryString = "SELECT * FROM [dbo].[Doggos] ORDER BY DateAdded DESC";
@@ -26,19 +28,12 @@ namespace DogiWiki2.Controllers
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
 
-                    string list = "";
+                    
                     try
                     {
                         while (reader.Read())
                         {
-                            list = reader["Name"].ToString();
-                            list = list + "%" + reader["Description"].ToString();
-                            list = list + "%" + reader["Filename"].ToString();
-
-                            imagesList.Add(list);
-                            System.Diagnostics.Debug.WriteLine(list);
-
-                            list = "";
+                            imagesList.Add(Tuple.Create(reader["Name"].ToString(), reader["Description"].ToString(), reader["Filename"].ToString()));
                         }
                     }
                     finally
@@ -61,10 +56,12 @@ namespace DogiWiki2.Controllers
             string where = "";
             string orderBy = "";
 
+            List<Tuple<string, string, string>> imagesList = new List<Tuple<string, string, string>>();
+
             //set query
             if (model.Filter != "All")
                 where = " WHERE Breed='" + model.Filter + "'";
-            
+
             queryString = queryString + where;
 
             if (model.SortBy == "Newest")
@@ -74,11 +71,10 @@ namespace DogiWiki2.Controllers
 
             queryString = queryString + orderBy;
 
+            System.Diagnostics.Debug.WriteLine("Query after filter: " + queryString);
 
-            List<String> imagesList = new List<string>();
+            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf;Integrated Security=True";
 
-            string connectionString = "todo";
-            
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
@@ -87,26 +83,29 @@ namespace DogiWiki2.Controllers
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
 
-                    string list = "";
                     try
                     {
                         while (reader.Read())
                         {
-                            list = reader["Name"].ToString();
-                            list = list + "%%%" + reader["Description"].ToString();
-                            list = list + "%%%" + reader["Filename"].ToString();
-
-                            imagesList.Add(list);
-                            System.Diagnostics.Debug.WriteLine(list);
-
-                            list = "";
+                            imagesList.Add(Tuple.Create(reader["Name"].ToString(), reader["Description"].ToString(), reader["Filename"].ToString()));
                         }
                     }
                     finally
                     {
                         if (model.SortBy == "Random")
                         {
-                            //TODO - randomize
+                            //shuffle the list
+                            Random rng = new Random();
+
+                            int n = imagesList.Count;
+                            while (n > 1)
+                            {
+                                n--;
+                                int k = rng.Next(n + 1);
+                                var value = imagesList[k];
+                                imagesList[k] = imagesList[n];
+                                imagesList[n] = value;
+                            }
                         }
                         ViewBag.Images = imagesList;
                         // Always call Close when done reading.
@@ -190,5 +189,7 @@ namespace DogiWiki2.Controllers
 
             return Redirect("~/Home/UploadComplete");
         }
+
+        
     }
 }

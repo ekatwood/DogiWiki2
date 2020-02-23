@@ -31,11 +31,10 @@
             @{var doggos = ViewBag.Images; }
             @foreach (var dog in doggos)
             {
-                var splitList = dog.Split('%');
-                string name = splitList[0];
-                string description = splitList[1];
+                string name = dog.Item1;
+                string description = dog.Item2;
                 string filename = "~/Images/";
-                filename = filename + splitList[2];
+                filename = filename + dog.Item3;
             
             <div>
                 <img src="@Url.Content(filename)" alt="Doggo!" style="max-width:95%;border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
