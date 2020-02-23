@@ -26,7 +26,7 @@
 
 <div class="body-content body-navigation">
     <center>
-        <div>
+        <div style="max-width: 500px;margin: auto;padding-top:15px">
 
             @{var doggos = ViewBag.Images; }
             @foreach (var dog in doggos)
@@ -36,11 +36,13 @@
                 string description = splitList[1];
                 string filename = "~/Images/";
                 filename = filename + splitList[2];
-                filename = filename + ".jpeg";
-
-                <img src="@Url.Content(filename)" alt="Doggo!" style="max-width:45%;border-radius:18px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
-                <p><strong>@name</strong></p>
-                <p>@description</p>
+            
+            <div>
+                <img src="@Url.Content(filename)" alt="Doggo!" style="max-width:95%;border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
+                <p style="text-align:left;padding-top:10px;padding-bottom:5px;width:100%"><strong>@name</strong><br /><em>@description</em></p>
+                
+            </div>
+                
 
             }
             

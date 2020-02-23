@@ -143,6 +143,7 @@ namespace DogiWiki2.Controllers
         public ActionResult Upload(HttpPostedFileBase file, UploadModel model)
         {
             Guid guid = Guid.NewGuid();
+            String fileNameOfficial = "";
             //save the image
             try
             {
@@ -154,6 +155,8 @@ namespace DogiWiki2.Controllers
                 string newFileName = guid.ToString() + extension;
 
                 string fullPath = Path.Combine(path, newFileName);
+
+                fileNameOfficial = newFileName;
 
                 file.SaveAs(fullPath);
             }
@@ -176,7 +179,7 @@ namespace DogiWiki2.Controllers
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
 
-                cmd.CommandText = "INSERT INTO [C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf].[dbo].[Doggos] VALUES ('"+name+"','"+breed+"','"+description+"','"+guid.ToString()+"','"+date+"',0)";
+                cmd.CommandText = "INSERT INTO [C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf].[dbo].[Doggos] VALUES ('"+name+"','"+breed+"','"+description+"','"+fileNameOfficial+"','"+date+"',0)";
                 cmd.ExecuteNonQuery();
                 System.Diagnostics.Debug.WriteLine("Execute query complete");
                 con.Close();
