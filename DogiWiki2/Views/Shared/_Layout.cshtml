@@ -16,7 +16,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("logo", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <div>
+                    <a href="@Url.Action("Index","Home",null)">
+                        <img src="@Url.Content("~/SiteImages/dognose.png")" style="max-height:50px" />
+                    </a>
+                </div>
+                
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
