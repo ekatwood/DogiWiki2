@@ -5,6 +5,9 @@ using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using DogiWiki2.Models;
 
 namespace DogiWiki2.Controllers
@@ -143,21 +146,98 @@ namespace DogiWiki2.Controllers
         {
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = "";
-            //save the image
+            
+            //save the image, resize if it is too large
             try
             {
+                Image i = System.Drawing.Image.FromStream(file.InputStream);
+
+                
+                var rotate = RotateFlipType.RotateNoneFlipNone;
+
+                //rotate the image before saving if needed
+                if (!i.PropertyIdList.Contains(0x112))
+                {
+                    //do nothing
+                }
+                else
+                {
+                    var prop = i.GetPropertyItem(0x112);
+                    int val = BitConverter.ToUInt16(prop.Value, 0);
+
+                    if (val == 3 || val == 4)
+                        rotate = RotateFlipType.Rotate180FlipNone;
+                    else if (val == 5 || val == 6)
+                        rotate = RotateFlipType.Rotate90FlipNone;
+                    else if (val == 7 || val == 8)
+                        rotate = RotateFlipType.Rotate270FlipNone;
+
+                    if (val == 2 || val == 4 || val == 5 || val == 7)
+                        rotate |= RotateFlipType.RotateNoneFlipX;
+                }
+
+                if (rotate != RotateFlipType.RotateNoneFlipNone)
+                    i.RotateFlip(rotate);
+
+                int width = i.Width;
+                int height = i.Height;
+
+                int newWidth = 0;
+                int newHeight = 0;
+
+                Bitmap m = null;
+
+                if(width > 1200 || height > 1200)
+                {
+                    if (width > height)
+                    {
+                        newWidth = 1200;
+                        newHeight = 1200 * height / width;
+                    }
+                    else
+                    {
+                        newHeight = 1200;
+                        newWidth = 1200 * width / height;
+                    }
+
+                    
+
+                    m = ResizeImage(i, newWidth, newHeight);
+
+                    
+
+                }
+
                 string path = Server.MapPath("~/Images");
-                string fileName = Path.GetFileName(file.FileName);
 
-                string extension = Path.GetExtension(fileName);
+                if ((width > 1200 || height > 1200))
+                {
+                    ImageCodecInfo jpgInfo = ImageCodecInfo.GetImageEncoders().Where(codecInfo => codecInfo.MimeType == "image/jpeg").First();
+                    using (EncoderParameters encParams = new EncoderParameters(1))
+                    {
+                        encParams.Param[0] = new EncoderParameter(Encoder.Quality, (long)100);
+                        //quality should be in the range [0..100]
 
-                string newFileName = guid.ToString() + extension;
+                        m.Save(Path.Combine(path, guid.ToString() + ".jpg"), jpgInfo, encParams);
+                    }
 
-                string fullPath = Path.Combine(path, newFileName);
+                    fileNameOfficial = guid.ToString() + ".jpg";
+                }
+                else
+                {
+                    string fileName = Path.GetFileName(file.FileName);
 
-                fileNameOfficial = newFileName;
+                    string extension = Path.GetExtension(fileName);
 
-                file.SaveAs(fullPath);
+                    string newFileName = guid.ToString() + extension;
+
+                    string fullPath = Path.Combine(path, newFileName);
+
+                    fileNameOfficial = newFileName;
+
+                    file.SaveAs(fullPath);
+                }
+                
             }
             catch(Exception e) { System.Diagnostics.Debug.WriteLine("Error with upload: " + e.Message); }
 
@@ -190,6 +270,32 @@ namespace DogiWiki2.Controllers
             return Redirect("~/Home/UploadComplete");
         }
 
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
         
+
     }
 }

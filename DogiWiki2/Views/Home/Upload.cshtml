@@ -10,7 +10,7 @@
             <input type="file" name="file" accept="image/*" required />
             <br />
             <label style="padding-top: 15px">Name of Dog: </label>
-            @Html.TextBoxFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new { @required  = "required"})
             
             <br />
             <label style="padding-top: 15px">Breed: </label>
