@@ -145,7 +145,7 @@ namespace DogiWiki2.Controllers
         public ActionResult Upload(HttpPostedFileBase file, UploadModel model)
         {
             Guid guid = Guid.NewGuid();
-            String fileNameOfficial = "";
+            String fileNameOfficial = guid.ToString();
             
             //save the image, resize if it is too large
             try
@@ -208,7 +208,7 @@ namespace DogiWiki2.Controllers
 
                 }
 
-                string path = Server.MapPath("~/Images");
+                string path = VirtualPathUtility.ToAbsolute("~/Images");
 
                 if ((width > 1200 || height > 1200))
                 {
@@ -218,10 +218,10 @@ namespace DogiWiki2.Controllers
                         encParams.Param[0] = new EncoderParameter(Encoder.Quality, (long)100);
                         //quality should be in the range [0..100]
 
-                        m.Save(Path.Combine(path, guid.ToString() + ".jpg"), jpgInfo, encParams);
+                        m.Save(Path.Combine(path, fileNameOfficial+ ".jpg"), jpgInfo, encParams);
                     }
 
-                    fileNameOfficial = guid.ToString() + ".jpg";
+                    fileNameOfficial = fileNameOfficial + ".jpg";
                 }
                 else
                 {
