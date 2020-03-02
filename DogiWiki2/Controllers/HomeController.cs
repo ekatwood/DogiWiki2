@@ -20,7 +20,7 @@ namespace DogiWiki2.Controllers
         {
             List<Tuple<string, string, string>> imagesList = new List<Tuple<string, string, string>>();
 
-            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf;Integrated Security=True";
+            string connectionString = "Server=tcp:dogiwikidbserver.database.windows.net,1433;Initial Catalog=DogiWiki_db;Persist Security Info=False;User ID=eric;Password=ek@132EKA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             string queryString = "SELECT * FROM [dbo].[Doggos] ORDER BY DateAdded DESC";
 
             try
@@ -76,7 +76,7 @@ namespace DogiWiki2.Controllers
 
             System.Diagnostics.Debug.WriteLine("Query after filter: " + queryString);
 
-            string connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf;Integrated Security=True";
+            string connectionString = "Server=tcp:dogiwikidbserver.database.windows.net,1433;Initial Catalog=DogiWiki_db;Persist Security Info=False;User ID=eric;Password=ek@132EKA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
             try
             {
@@ -250,7 +250,7 @@ namespace DogiWiki2.Controllers
                 string date = DateTime.Now.ToString();
                 
 
-                SqlConnection con = new SqlConnection("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf;Integrated Security=True");
+                SqlConnection con = new SqlConnection("Server=tcp:dogiwikidbserver.database.windows.net,1433;Initial Catalog=DogiWiki_db;Persist Security Info=False;User ID=eric;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
                 System.Diagnostics.Debug.WriteLine("Connect to db complete");
                 con.Open();
@@ -258,7 +258,7 @@ namespace DogiWiki2.Controllers
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = System.Data.CommandType.Text;
 
-                cmd.CommandText = "INSERT INTO [C:\\Users\\erock\\Documents\\DogiWiki2\\DogiWiki2\\App_Data\\dogsdb.mdf].[dbo].[Doggos] VALUES ('"+name+"','"+breed+"','"+description+"','"+fileNameOfficial+"','"+date+"',0)";
+                cmd.CommandText = "INSERT INTO [dbo].[Doggos] VALUES ('"+name+"','"+breed+"','"+description+"','"+fileNameOfficial+"','"+date+"',0)";
                 cmd.ExecuteNonQuery();
                 System.Diagnostics.Debug.WriteLine("Execute query complete");
                 con.Close();
