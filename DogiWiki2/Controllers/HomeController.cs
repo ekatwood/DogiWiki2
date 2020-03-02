@@ -250,7 +250,7 @@ namespace DogiWiki2.Controllers
                 string date = DateTime.Now.ToString();
                 
 
-                SqlConnection con = new SqlConnection("Server=tcp:dogiwikidbserver.database.windows.net,1433;Initial Catalog=DogiWiki_db;Persist Security Info=False;User ID=eric;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                SqlConnection con = new SqlConnection("Server=tcp:dogiwikidbserver.database.windows.net,1433;Initial Catalog=DogiWiki_db;Persist Security Info=False;User ID=eric;Password=ek@132EKA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
                 System.Diagnostics.Debug.WriteLine("Connect to db complete");
                 con.Open();
