@@ -37,7 +37,7 @@
                 filename = filename + dog.Item3;
             
             <div>
-                <img src="@Url.Content(filename)" alt="Doggo!" style="max-width:95%;border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
+                <img src="@Url.Content(VirtualPathUtility.ToAbsolute(filename))" alt="Doggo!" style="max-width:95%;border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
                 <p style="text-align:left;padding-top:10px;padding-bottom:5px;width:100%"><strong>@name</strong><br /><em>@description</em></p>
                 
             </div>
