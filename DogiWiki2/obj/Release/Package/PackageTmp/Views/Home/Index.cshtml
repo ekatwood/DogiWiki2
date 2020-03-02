@@ -1,0 +1,50 @@
+﻿@model DogiWiki2.Models.IndexModel
+@{
+    ViewBag.Title = "DogiWiki";
+}
+
+<div class="body-content body-navigation">
+    <center>
+        <h3>DogiWiki</h3>
+        <h5>Upload a picture of your dog, or start scrolling!</h5>
+        <a href="~/Home/Upload">Upload</a>
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            <label style="padding-top: 15px">Filter by breed: </label>
+            @Html.DropDownListFor(model => model.Filter, new SelectList(DogiWiki2.Models.IndexModel.FilterList))
+            <br />
+            <label style="padding-top: 15px">Sort by: </label>
+            @Html.DropDownListFor(model => model.SortBy, new SelectList(DogiWiki2.Models.IndexModel.SortByList))
+
+            <br />
+            <input type="submit" value="Filter" />
+        }
+    </center>
+
+</div>
+
+<div class="body-content body-navigation">
+    <center>
+        <div style="max-width: 500px;margin: auto;padding-top:15px">
+
+            @{var doggos = ViewBag.Images; }
+            @foreach (var dog in doggos)
+            {
+                string name = dog.Item1;
+                string description = dog.Item2;
+                string filename = "~/Images/";
+                filename = filename + dog.Item3;
+            
+            <div>
+                <img src="@Url.Content(filename)" alt="Doggo!" style="max-width:95%;border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
+                <p style="text-align:left;padding-top:10px;padding-bottom:5px;width:100%"><strong>@name</strong><br /><em>@description</em></p>
+                
+            </div>
+                
+
+            }
+            
+        </div>
+    </center>
+</div>
