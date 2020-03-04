@@ -28,7 +28,7 @@ namespace DogiWiki2.Models
             "Double Doodle"
         };
 
-        public static async Task WriteBlobStream(Stream blob, string containerName, string blobPath)
+        public static async Task WriteBlobStream(Stream blob, string containerName, string blobPath, string extension)
         {
             // Retrieve storage account from connection string.
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=dogiwikistorage;AccountKey=Ijl+ST0jBJWEMBTkT+uEaPrmqpLMTKr5eiIXDSn6X4JauwuDAcnRy6f1YDdrKh/qSFHKwOmGx/2im4/28m34Jw==;EndpointSuffix=core.windows.net");
@@ -43,6 +43,7 @@ namespace DogiWiki2.Models
             
             // create a blob in the path of the <container>/
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobPath);
+            blockBlob.Properties.ContentType = "image/" + extension;
 
             await blockBlob.UploadFromStreamAsync(blob);
         }

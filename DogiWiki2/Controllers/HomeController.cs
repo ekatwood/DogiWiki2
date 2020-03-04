@@ -223,7 +223,7 @@ namespace DogiWiki2.Controllers
                         {
                             m.Save(memoryStream, jpgInfo, encParams);
                             memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
-                            await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial + ".jpg");
+                            await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial + ".jpg", ".jpg");
                         }
 
                         //m.Save(Path.Combine(path, fileNameOfficial+ ".jpg"), jpgInfo, encParams);
@@ -239,9 +239,9 @@ namespace DogiWiki2.Controllers
 
                     using (MemoryStream memoryStream = new MemoryStream())
                     {
-                        file.InputStream.CopyTo(memoryStream);
-                        memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
-                        await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial + extension);
+                        await file.InputStream.CopyToAsync(memoryStream);
+                        //memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
+                        await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial + extension, extension);
                     }
 
 
