@@ -254,3 +254,8 @@ C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\System.Xml.XmlSerializer.dll
 C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\System.Xml.XPath.dll
 C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\System.Xml.XPath.XDocument.dll
 C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Ubiety.Dns.Core.xml
+C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Microsoft.Azure.KeyVault.Core.dll
+C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Microsoft.WindowsAzure.Storage.dll
+C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Microsoft.Azure.KeyVault.Core.xml
+C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Microsoft.WindowsAzure.Storage.pdb
+C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Microsoft.WindowsAzure.Storage.xml

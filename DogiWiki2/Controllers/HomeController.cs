@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Threading.Tasks;
 using DogiWiki2.Models;
 
 namespace DogiWiki2.Controllers
@@ -142,7 +143,7 @@ namespace DogiWiki2.Controllers
         }
 
         [HttpPost]
-        public ActionResult Upload(HttpPostedFileBase file, UploadModel model)
+        public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString();
@@ -208,7 +209,7 @@ namespace DogiWiki2.Controllers
 
                 }
 
-                string path = VirtualPathUtility.ToAbsolute("~/Images");
+                //string path = VirtualPathUtility.ToAbsolute("~/Images");
 
                 if ((width > 1200 || height > 1200))
                 {
@@ -218,7 +219,14 @@ namespace DogiWiki2.Controllers
                         encParams.Param[0] = new EncoderParameter(Encoder.Quality, (long)100);
                         //quality should be in the range [0..100]
 
-                        m.Save(Path.Combine(path, fileNameOfficial+ ".jpg"), jpgInfo, encParams);
+                        using (MemoryStream memoryStream = new MemoryStream())
+                        {
+                            m.Save(memoryStream, jpgInfo, encParams);
+                            memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
+                            await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial + ".jpg");
+                        }
+
+                        //m.Save(Path.Combine(path, fileNameOfficial+ ".jpg"), jpgInfo, encParams);
                     }
 
                     fileNameOfficial = fileNameOfficial + ".jpg";
@@ -229,13 +237,21 @@ namespace DogiWiki2.Controllers
 
                     string extension = Path.GetExtension(fileName);
 
-                    string newFileName = guid.ToString() + extension;
+                    using (MemoryStream memoryStream = new MemoryStream())
+                    {
+                        file.InputStream.CopyTo(memoryStream);
+                        memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
+                        await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial + extension);
+                    }
 
-                    string fullPath = Path.Combine(path, newFileName);
 
-                    fileNameOfficial = newFileName;
+                    //string newFileName = guid.ToString() + extension;
 
-                    file.SaveAs(fullPath);
+                    //string fullPath = Path.Combine(path, newFileName);
+
+                    fileNameOfficial = fileNameOfficial + extension;
+
+                    //file.SaveAs(fullPath);
                 }
                 
             }

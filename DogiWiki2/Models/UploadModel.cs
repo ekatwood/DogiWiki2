@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
+using System.IO;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace DogiWiki2.Models
 {
     public class UploadModel
     {
+        private static string accountName = "dogiwikistorage";
+        private static string accessString = "Ijl+ST0jBJWEMBTkT+uEaPrmqpLMTKr5eiIXDSn6X4JauwuDAcnRy6f1YDdrKh/qSFHKwOmGx/2im4/28m34Jw==";
         public string Name { get; set;}
 
         public string Description { get; set; }
@@ -21,6 +27,25 @@ namespace DogiWiki2.Models
             "Golden Retriever",
             "Double Doodle"
         };
+
+        public static async Task WriteBlobStream(Stream blob, string containerName, string blobPath)
+        {
+            // Retrieve storage account from connection string.
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=dogiwikistorage;AccountKey=Ijl+ST0jBJWEMBTkT+uEaPrmqpLMTKr5eiIXDSn6X4JauwuDAcnRy6f1YDdrKh/qSFHKwOmGx/2im4/28m34Jw==;EndpointSuffix=core.windows.net");
+
+            // Create the blob client.
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+
+            // Retrieve a reference to a container.
+            CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+            // Create the container if it doesn't already exist.
+            //await container.CreateIfNotExistsAsync();
+            
+            // create a blob in the path of the <container>/
+            CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobPath);
+
+            await blockBlob.UploadFromStreamAsync(blob);
+        }
 
     }
 
