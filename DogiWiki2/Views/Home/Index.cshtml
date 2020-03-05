@@ -28,23 +28,32 @@
     <center>
         <div style="max-width: 500px;margin: auto;padding-top:15px">
 
-            @{var doggos = ViewBag.Images;
-                var uriBase = "https://dogiwikistorage.blob.core.windows.net/images/";}
-            @foreach (var dog in doggos)
-            {
-                string name = dog.Item1;
-                string description = dog.Item2;
-                string filename = uriBase + dog.Item3;
-            
-            <div>
-                <img src="@filename" alt="Doggo!" style="max-width:95%;border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
-                <p style="text-align:left;padding-top:10px;padding-bottom:5px;width:100%"><strong>@name</strong><br /><em>@description</em></p>
-                
-            </div>
-                
+            @{var doggos = ViewBag.Images;}
+            @{
+                if (doggos != null)
+                {
+                    foreach (var dog in doggos)
+                    {
+                        string name = dog.Item1;
+                        string description = "";
+                        if(dog.Item2 != null)
+                        {
+                            description = dog.Item2;
+                        }
+                        string filename = "https://dogiwikistorage.blob.core.windows.net/images/" + dog.Item3;
 
+                        <div>
+                            <img src="@filename" alt="Doggo!" style="max-width:95%;border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
+                            <p style="text-align:left;padding-top:10px;padding-bottom:5px;width:100%"><strong>@name</strong><br /><em>@description</em></p>
+
+                        </div>
+
+
+                    }
+                }
             }
-            
+
+
         </div>
     </center>
 </div>
