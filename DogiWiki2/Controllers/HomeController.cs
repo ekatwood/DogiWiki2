@@ -146,7 +146,7 @@ namespace DogiWiki2.Controllers
         public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
             Guid guid = Guid.NewGuid();
-            String fileNameOfficial = guid.ToString();
+            String fileNameOfficial = guid.ToString() + ".jpg";
             
             //save the image, resize if it is too large
             try
@@ -201,36 +201,34 @@ namespace DogiWiki2.Controllers
                         newWidth = 1200 * width / height;
                     }
 
-                    
-
                     m = ResizeImage(i, newWidth, newHeight);
-
-                    
-
+                }
+                else
+                {
+                    m = new Bitmap(i);
                 }
 
                 //string path = VirtualPathUtility.ToAbsolute("~/Images");
 
-                if ((width > 1200 || height > 1200))
+
+                ImageCodecInfo jpgInfo = ImageCodecInfo.GetImageEncoders().Where(codecInfo => codecInfo.MimeType == "image/jpeg").First();
+                using (EncoderParameters encParams = new EncoderParameters(1))
                 {
-                    ImageCodecInfo jpgInfo = ImageCodecInfo.GetImageEncoders().Where(codecInfo => codecInfo.MimeType == "image/jpeg").First();
-                    using (EncoderParameters encParams = new EncoderParameters(1))
+                    encParams.Param[0] = new EncoderParameter(Encoder.Quality, (long)100);
+                    //quality should be in the range [0..100]
+
+                    using (MemoryStream memoryStream = new MemoryStream())
                     {
-                        encParams.Param[0] = new EncoderParameter(Encoder.Quality, (long)100);
-                        //quality should be in the range [0..100]
-
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            m.Save(memoryStream, jpgInfo, encParams);
-                            memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
-                            await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial + ".jpg", ".jpg");
-                        }
-
-                        //m.Save(Path.Combine(path, fileNameOfficial+ ".jpg"), jpgInfo, encParams);
+                        m.Save(memoryStream, jpgInfo, encParams);
+                        memoryStream.Seek(0, SeekOrigin.Begin); // otherwise you'll get zero byte files
+                        await UploadModel.WriteBlobStream(memoryStream, "images", fileNameOfficial);
                     }
 
-                    fileNameOfficial = fileNameOfficial + ".jpg";
+                    //m.Save(Path.Combine(path, fileNameOfficial+ ".jpg"), jpgInfo, encParams);
                 }
+
+                    
+                /*
                 else
                 {
                     string fileName = Path.GetFileName(file.FileName);
@@ -252,7 +250,7 @@ namespace DogiWiki2.Controllers
                     fileNameOfficial = fileNameOfficial + extension;
 
                     //file.SaveAs(fullPath);
-                }
+                }*/
                 
             }
             catch(Exception e) { System.Diagnostics.Debug.WriteLine("Error with upload: " + e.Message); }
