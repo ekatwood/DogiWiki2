@@ -12,8 +12,6 @@ namespace DogiWiki2.Models
 {
     public class UploadModel
     {
-        private static string accountName = "dogiwikistorage";
-        private static string accessString = "Ijl+ST0jBJWEMBTkT+uEaPrmqpLMTKr5eiIXDSn6X4JauwuDAcnRy6f1YDdrKh/qSFHKwOmGx/2im4/28m34Jw==";
         public string Name { get; set;}
 
         public string Description { get; set; }

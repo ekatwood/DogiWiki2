@@ -22,8 +22,7 @@ namespace DogiWiki2.Models
         public static List<String> SortByList = new List<string>
         {
             "Newest",
-            "Most Popular",
-            "Random",
+            "Random"
         };       
     }
 }
