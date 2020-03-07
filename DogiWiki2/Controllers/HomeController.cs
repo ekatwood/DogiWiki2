@@ -251,7 +251,7 @@ namespace DogiWiki2.Controllers
                     string name = model.Name;
                     string breed = model.SelectedBreed;
                     string description = model.Description;
-                    DateTime date = DateTime.UtcNow;
+                    long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 
 
                     SqlConnection con = new SqlConnection("Server=tcp:dogiwikidbserver.database.windows.net,1433;Initial Catalog=DogiWiki_db;Persist Security Info=False;User ID=eric;Password=ek@132EKA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
@@ -262,7 +262,7 @@ namespace DogiWiki2.Controllers
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = System.Data.CommandType.Text;
 
-                    cmd.CommandText = "INSERT INTO [dbo].[Doggos] VALUES ('" + name + "','" + breed + "','" + description + "','" + fileNameOfficial + "','" + date + "',0)";
+                    cmd.CommandText = "INSERT INTO [dbo].[Doggos] VALUES ('" + name + "','" + breed + "','" + description + "','" + fileNameOfficial + "',0,"+ (int)unixTime+")";
                     cmd.ExecuteNonQuery();
                     System.Diagnostics.Debug.WriteLine("Execute query complete");
                     con.Close();
