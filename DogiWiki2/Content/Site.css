@@ -5,8 +5,54 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.navbar-background {
+    background-color: #ebddcb;
+}
+
+.mynav a{
+    color:#353535 !important;
+}
+
+.mynav button:hover {
+    background-color: #ebddcb !important;
+}
+
+.mynav button:enabled {
+    background-color: #ebddcb !important;
+}
+
+.mynav {
+    border-color: #fff !important;
+}
+
+.uploadButton {
+    color: white;
+    font-weight: bold;
+    background-color: #5d5234;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.filterButton {
+    color: #353535;
+    background-color: #ebddcb;
+    border-radius: 5px;
+    padding: 5px;
+    border-radius:5px;
+}
+
+a:hover{
+    color:white;
+    text-decoration:none;
+}
+
+select{
+    width:110px;
+    
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 

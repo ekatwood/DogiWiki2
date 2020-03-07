@@ -5,21 +5,25 @@
 
 <div class="body-content body-navigation">
     <center>
-        <h3>DogiWiki</h3>
-        <h5>Upload a picture of your dog, or start scrolling!</h5>
-        <a href="~/Home/Upload">Upload</a>
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        <h3>Welcome to DogiWiki</h3>
+        <h4 style="margin-bottom:17px;"><em>Upload a picture of your dog, or start scrolling!</em></h4>
+        <a class="uploadButton" href="~/Home/Upload">Upload</a>
+        <div>
+            @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
 
-            <label style="padding-top: 15px">Filter by breed: </label>
-            @Html.DropDownListFor(model => model.Filter, new SelectList(DogiWiki2.Models.IndexModel.FilterList))
-            <br />
-            <label style="padding-top: 15px">Sort by: </label>
-            @Html.DropDownListFor(model => model.SortBy, new SelectList(DogiWiki2.Models.IndexModel.SortByList))
 
-            <br />
-            <input type="submit" value="Filter" />
-        }
+                <label style="padding-top: 25px">Filter by breed:</label>
+                @Html.DropDownListFor(model => model.Filter, new SelectList(DogiWiki2.Models.IndexModel.FilterList))
+
+                <br />
+                <label style="padding-top: 10px;padding-bottom:10px;">Sort by:</label>
+                @Html.DropDownListFor(model => model.SortBy, new SelectList(DogiWiki2.Models.IndexModel.SortByList))
+
+                <br />
+                <input class="filterButton"type="submit" value="Filter" />
+            }
+        </div>
     </center>
 
 </div>

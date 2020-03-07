@@ -11,6 +11,8 @@ using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using DogiWiki2.Models;
 
+//System.Diagnostics.Debug.WriteLine("");
+
 namespace DogiWiki2.Controllers
 {
 
@@ -241,7 +243,10 @@ namespace DogiWiki2.Controllers
                 }
                 
             }
-            catch(Exception e) { System.Diagnostics.Debug.WriteLine("Error with upload: " + e.Message); }
+            catch(Exception e) { 
+
+                System.Diagnostics.Debug.WriteLine("Error with upload: " + e.Message); 
+            }
 
             //write to database
             if (imageUploadSuccess)
@@ -256,15 +261,14 @@ namespace DogiWiki2.Controllers
 
                     SqlConnection con = new SqlConnection("Server=tcp:dogiwikidbserver.database.windows.net,1433;Initial Catalog=DogiWiki_db;Persist Security Info=False;User ID=eric;Password=ek@132EKA;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
-                    System.Diagnostics.Debug.WriteLine("Connect to db complete");
                     con.Open();
-                    System.Diagnostics.Debug.WriteLine("db open");
+                    
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = System.Data.CommandType.Text;
 
                     cmd.CommandText = "INSERT INTO [dbo].[Doggos] VALUES ('" + name + "','" + breed + "','" + description + "','" + fileNameOfficial + "',0,"+ (int)unixTime+")";
                     cmd.ExecuteNonQuery();
-                    System.Diagnostics.Debug.WriteLine("Execute query complete");
+                    
                     con.Close();
                 }
                 catch (Exception e) { System.Diagnostics.Debug.WriteLine("Error with writing to database: " + e.Message); }
