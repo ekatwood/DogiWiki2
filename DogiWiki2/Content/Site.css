@@ -45,13 +45,8 @@
     border-radius:5px;
 }
 
-a:hover{
-    color:white;
-    text-decoration:none;
-}
-
 select{
-    width:110px;
+    width:120px;
     
 }
 

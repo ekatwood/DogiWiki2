@@ -5,23 +5,21 @@
 
 <div class="body-content body-navigation">
     <center>
-        <h3>Welcome to DogiWiki</h3>
-        <h4 style="margin-bottom:17px;"><em>Upload a picture of your dog, or start scrolling!</em></h4>
-        <a class="uploadButton" href="~/Home/Upload">Upload</a>
+        <div style="padding-top:10px;">
+            <a style="font-size:18px;" href="~/Home/Upload">Upload a Picture</a>
+        </div>
         <div>
             @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-
-
-                <label style="padding-top: 25px">Filter by breed:</label>
+                <label style="margin-top:10px;">Filter by breed:</label>
+                <br />
                 @Html.DropDownListFor(model => model.Filter, new SelectList(DogiWiki2.Models.IndexModel.FilterList))
-
                 <br />
-                <label style="padding-top: 10px;padding-bottom:10px;">Sort by:</label>
+                <label style="margin-top:10px;">Sort by:</label>
+                <br />
                 @Html.DropDownListFor(model => model.SortBy, new SelectList(DogiWiki2.Models.IndexModel.SortByList))
-
                 <br />
-                <input class="filterButton"type="submit" value="Filter" />
+                <input style="margin-top:10px;" type="submit" value="Filter" />
             }
         </div>
     </center>
@@ -48,7 +46,10 @@
 
                         <div>
                             <img src="@filename" alt="Doggo!" style="max-width:95%;max-height:82vh; border-radius:7px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" />
-                            <p style="text-align:left;padding-top:10px;padding-bottom:5px;width:100%"><strong>@name</strong><br /><em>@description</em></p>
+                            <p style="        text-align: left;
+        padding-top: 10px;
+        padding-bottom: 5px;
+        width: 100%"><strong>@name</strong><br /><em>@description</em></p>
 
                         </div>
 
