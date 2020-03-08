@@ -7,7 +7,7 @@
     <center>
         @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-            <input style="margin-top:10px;width:185px;" type="file" name="file" accept="image/*" required />
+            <input type="file" name="file" accept="image/*" required/>
 
             <label style="padding-top: 12px">Name of Dog: </label>
             <br />
@@ -22,7 +22,7 @@
             @Html.TextBoxFor(model => model.Description)
 
             <br />
-            <input style="margin-top:15px;"type="submit" value="Submit" />
+            <input type="submit" value="Submit" />
         }
     </center>
 
