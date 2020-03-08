@@ -1,3 +1,4 @@
 *.lock
-*.ide*
-.vs\
+*.ide
+*.ide-wal
+.vs/

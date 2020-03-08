@@ -5,9 +5,10 @@
 
 <div class="body-content body-navigation">
     <center>
-        <h3>DogiWiki</h3>
-        <h5>Upload a picture of your dog, or start scrolling!</h5>
-        <a href="~/Home/Upload">Upload</a>
+        <div style="padding-top:10px;">
+            <a style="font-size:18px;" href="~/Home/Upload">Upload</a>
+        </div>
+        
         @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
 
