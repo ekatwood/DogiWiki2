@@ -5,10 +5,8 @@
 
 <div class="body-content body-navigation">
     <center>
-        
-            <a style="font-size:18px;" href="~/Home/Upload">Upload</a>
-        
-        
+
+        <a href="~/Home/Upload">Upload</a>
         @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
 
