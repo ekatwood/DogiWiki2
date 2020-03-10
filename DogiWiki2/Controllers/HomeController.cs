@@ -252,7 +252,10 @@ namespace DogiWiki2.Controllers
                     name = UploadModel.Base64Encode(name);
                     string breed = model.SelectedBreed;
                     string description = model.Description;
-                    description = UploadModel.Base64Encode(description);
+                    if (String.IsNullOrEmpty(description))
+                        description = "";
+                    else
+                        description = UploadModel.Base64Encode(description);
 
                     long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 
