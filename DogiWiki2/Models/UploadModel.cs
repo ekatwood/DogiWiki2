@@ -12,6 +12,8 @@ namespace DogiWiki2.Models
 {
     public class UploadModel
     {
+        public string ErrorMessage { get; set; }
+
         public string Name { get; set;}
 
         public string Description { get; set; }
@@ -44,6 +46,18 @@ namespace DogiWiki2.Models
             blockBlob.Properties.ContentType = "image/jpg";
 
             await blockBlob.UploadFromStreamAsync(blob);
+        }
+
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
+
+        public static string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
     }

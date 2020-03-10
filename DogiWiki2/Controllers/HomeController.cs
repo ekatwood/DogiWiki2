@@ -40,7 +40,7 @@ namespace DogiWiki2.Controllers
                             string name = reader["Name"].ToString();
                             string desc = "";
                             if (reader["Description"] != null)
-                                desc = reader["Description"].ToString();
+                                desc = UploadModel.Base64Decode(reader["Description"].ToString());
                             string filename = reader["Filename"].ToString();
 
                             imagesList.Add(Tuple.Create(name, desc, filename));
@@ -100,7 +100,7 @@ namespace DogiWiki2.Controllers
                             string name = reader["Name"].ToString();
                             string desc = "";
                             if (reader["Description"] != null)
-                                desc = reader["Description"].ToString();
+                                desc = UploadModel.Base64Decode(reader["Description"].ToString());
                             string filename = reader["Filename"].ToString();
 
                             imagesList.Add(Tuple.Create(name, desc, filename));
@@ -251,6 +251,8 @@ namespace DogiWiki2.Controllers
                     string name = model.Name;
                     string breed = model.SelectedBreed;
                     string description = model.Description;
+                    description = UploadModel.Base64Encode(description);
+
                     long unixTime = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds();
 
 
