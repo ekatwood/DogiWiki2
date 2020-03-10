@@ -37,7 +37,7 @@ namespace DogiWiki2.Controllers
                     {
                         while (reader.Read())
                         {
-                            string name = reader["Name"].ToString();
+                            string name = UploadModel.Base64Decode(reader["Name"].ToString());
                             string desc = "";
                             if (reader["Description"] != null)
                                 desc = UploadModel.Base64Decode(reader["Description"].ToString());
@@ -97,7 +97,7 @@ namespace DogiWiki2.Controllers
                     {
                         while (reader.Read())
                         {
-                            string name = reader["Name"].ToString();
+                            string name = UploadModel.Base64Decode(reader["Name"].ToString());
                             string desc = "";
                             if (reader["Description"] != null)
                                 desc = UploadModel.Base64Decode(reader["Description"].ToString());
@@ -249,6 +249,7 @@ namespace DogiWiki2.Controllers
                 try
                 {
                     string name = model.Name;
+                    name = UploadModel.Base64Encode(name);
                     string breed = model.SelectedBreed;
                     string description = model.Description;
                     description = UploadModel.Base64Encode(description);
