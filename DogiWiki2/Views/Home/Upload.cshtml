@@ -5,23 +5,22 @@
 
 <div class="body-content body-navigation">
     <center>
-        @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <input type="file" name="file" accept="image/*" required />
-            <br />
-            <label style="padding-top: 15px">Name of Dog: </label>
-            @Html.TextBoxFor(model => model.Name, new { @required  = "required", @maxlength="35"})
-            
-            <br />
-            <label style="padding-top: 15px">Breed: </label>
-            @Html.DropDownListFor(model => model.SelectedBreed, new SelectList(DogiWiki2.Models.UploadModel.Breed))
-            <br />
-            <label style="padding-top: 15px">Description (optional): </label>
-            @Html.TextBoxFor(model => model.Description, new { @maxlength="250"})
+        <input style="width:185px;margin-top:10px;"type="file" name="file" accept="image/*" required />
 
-            <br />
-            <input type="submit" value="Submit" />
-        }
+        <label style="padding-top: 12px">Name of Dog: </label>
+        <br />
+        @Html.TextBoxFor(model => model.Name, new { @required = "required", @maxlength="35" })
+        <br />
+        <label style="padding-top: 12px">Breed: </label>
+        <br />
+        @Html.DropDownListFor(model => model.SelectedBreed, new SelectList(DogiWiki2.Models.UploadModel.Breed))
+        <br />
+        <label style="padding-top: 12px">Description (optional): </label>
+        <br />
+        @Html.TextBoxFor(model => model.Description, new { @maxlength="250"})
+
+        <br />
+        <input style="margin-top:10px;"type="submit" value="Submit" />
     </center>
 
 </div>
