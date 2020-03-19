@@ -157,7 +157,7 @@ namespace DogiWiki2.Controllers
         public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
 
-            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "C:/temp/My First Project-c3d0567c1ad3.json");
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", Path.GetFullPath("~/creds/My First Project-c3d0567c1ad3.json"));
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
