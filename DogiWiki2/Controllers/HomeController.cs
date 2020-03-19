@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Threading.Tasks;
+using Google.Cloud.Vision.V1;
 using DogiWiki2.Models;
 
 namespace DogiWiki2.Controllers
@@ -155,6 +156,9 @@ namespace DogiWiki2.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
+
+            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "C:/temp/My First Project-c3d0567c1ad3.json");
+
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
 
@@ -163,9 +167,41 @@ namespace DogiWiki2.Controllers
             //save the image, resize if it is too large
             try
             {
-                Image i = System.Drawing.Image.FromStream(file.InputStream);
+                System.Drawing.Image i = System.Drawing.Image.FromStream(file.InputStream);
 
-                
+                bool runAwayy = false;
+
+                //check for innaprops stuff
+                using (Stream stream = new MemoryStream())
+                {
+                    i.Save(stream, ImageFormat.Jpeg);
+                    stream.Position = 0;
+                    Google.Cloud.Vision.V1.Image image = await Google.Cloud.Vision.V1.Image.FromStreamAsync(stream);
+
+                    ImageAnnotatorClient client = ImageAnnotatorClient.Create();
+                    SafeSearchAnnotation annotation = client.DetectSafeSearch(image);
+                    // Each category is classified as Very Unlikely, Unlikely, Possible, Likely or Very Likely.
+                    System.Diagnostics.Debug.WriteLine($"Adult? {annotation.Adult}");
+                    System.Diagnostics.Debug.WriteLine($"Spoof? {annotation.Spoof}");
+                    System.Diagnostics.Debug.WriteLine($"Violence? {annotation.Violence}");
+                    System.Diagnostics.Debug.WriteLine($"Medical? {annotation.Medical}");
+
+                    if(annotation.Adult == Likelihood.Possible || annotation.Adult == Likelihood.Likely || annotation.Adult == Likelihood.VeryLikely 
+                        || annotation.Violence == Likelihood.Possible || annotation.Violence == Likelihood.Likely || annotation.Violence == Likelihood.VeryLikely
+                        || annotation.Medical == Likelihood.Possible || annotation.Medical == Likelihood.Likely || annotation.Medical == Likelihood.VeryLikely)
+                    {
+                        runAwayy = true;
+                    }
+                }
+
+                //return error if pic is inapprop
+                if (runAwayy)
+                {
+                    ViewBag.ErrorMessage = "Our algorithm determined your picture may have inappropriate content. Please choose another.";
+
+                    return View();
+                }
+
                 var rotate = RotateFlipType.RotateNoneFlipNone;
 
                 //rotate the image before saving if needed
@@ -297,7 +333,7 @@ namespace DogiWiki2.Controllers
             return Redirect("~/Home/UploadComplete");
         }
 
-        public static Bitmap ResizeImage(Image image, int width, int height)
+        public static Bitmap ResizeImage(System.Drawing.Image image, int width, int height)
         {
             var destRect = new Rectangle(0, 0, width, height);
             var destImage = new Bitmap(width, height);
