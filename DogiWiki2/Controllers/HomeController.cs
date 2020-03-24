@@ -162,7 +162,6 @@ namespace DogiWiki2.Controllers
                 if (model.Name.Contains(i) || model.Description.Contains(i))
                 {
                     ViewBag.ErrorMessage = "No inappropriate language or links, please.";
-
                     return View();
                 }
             }
