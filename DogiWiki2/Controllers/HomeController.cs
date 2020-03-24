@@ -156,8 +156,20 @@ namespace DogiWiki2.Controllers
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
+            //check for naughty words or links
 
-            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "~/creds/My First Project-c3d0567c1ad3.json");
+            foreach (string i in UploadModel.naughtyList){
+                if (model.Name.Contains(i) || model.Description.Contains(i))
+                {
+                    ViewBag.ErrorMessage = "No inappropriate language or links, please.";
+
+                    return View();
+                }
+            }
+
+            
+
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "~/creds/My First Project-c3d0567c1ad3.json");
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";

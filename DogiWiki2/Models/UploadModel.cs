@@ -186,7 +186,24 @@ namespace DogiWiki2.Models
             "Xoloitzcuintli",
         };
 
-    }
+        public static List<String> naughtyList = new List<string>
+        {
+            "fuck",
+            "f u c k",
+            "shit",
+            "ass",
+            "cock",
+            "c0ck",
+            "nigger",
+            "faggot",
+            "queer",
+            "http",
+            ".com",
+            ".ly",
+            ".net",
+            "xxx",
+            "porn"
+        };
 
     
 

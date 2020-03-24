@@ -212,6 +212,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="creds\My First Project-c3d0567c1ad3.json" />
     <None Include="Properties\PublishProfiles\DogiWiki - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -240,9 +241,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Upload.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="creds\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
