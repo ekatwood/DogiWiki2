@@ -12,7 +12,7 @@ namespace DogiWiki2.Models
 {
     public class UploadModel
     {
-        public string Name { get; set;}
+        public string Name { get; set; }
 
         public string Description { get; set; }
 
@@ -30,7 +30,7 @@ namespace DogiWiki2.Models
             CloudBlobContainer container = blobClient.GetContainerReference(containerName);
             // Create the container if it doesn't already exist.
             //await container.CreateIfNotExistsAsync();
-            
+
             // create a blob in the path of the <container>/
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(blobPath);
             blockBlob.Properties.ContentType = "image/jpg";
@@ -205,8 +205,8 @@ namespace DogiWiki2.Models
             "porn"
         };
 
-    
 
+    }
     
 
 }
