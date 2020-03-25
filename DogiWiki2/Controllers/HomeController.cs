@@ -166,12 +166,7 @@ namespace DogiWiki2.Controllers
                 }
             }
 
-            string credsFile = "My First Project-c3d0567c1ad3.json";
-            string pathToCredsFile = "";
-            string appRoot = HttpContext.Server.MapPath(@"~\");
-            pathToCredsFile = Path.Combine(appRoot, string.Format(@"creds\{0}", credsFile));
-
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", pathToCredsFile);
+            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", pathToCredsFile);
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
