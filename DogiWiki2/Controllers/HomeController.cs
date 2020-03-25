@@ -166,7 +166,7 @@ namespace DogiWiki2.Controllers
                 }
             }
 
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "D:/home/site/wwwroot/DogiWiki2/creds/My First Project-c3d0567c1ad3.json");
+            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "D:/home/site/wwwroot/DogiWiki2/creds/My First Project-c3d0567c1ad3.json");
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
