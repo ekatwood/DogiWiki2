@@ -163,11 +163,13 @@ namespace DogiWiki2.Controllers
             //check for naughty words or links
             
             foreach (string i in UploadModel.naughtyList){
+
                 string desc;
                 if (String.IsNullOrEmpty(model.Description))
                     desc = "";
                 else
                     desc = model.Description;
+
                 if (model.Name.Contains(i) || model.Description.Contains(i))
                 {
                     ViewBag.ErrorMessage = "No inappropriate language or links, please.";
@@ -175,7 +177,7 @@ namespace DogiWiki2.Controllers
                 }
             }
 
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
+            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
@@ -196,12 +198,11 @@ namespace DogiWiki2.Controllers
                     stream.Position = 0;
                     Google.Cloud.Vision.V1.Image image = await Google.Cloud.Vision.V1.Image.FromStreamAsync(stream);
 
-                    //var creds = GoogleCredential.FromFile(@"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
+                    var creds = GoogleCredential.FromFile(@"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
                     //var creds = GoogleCredential.FromFile("~/creds/creds.json");
+                    Channel channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, creds.ToChannelCredentials());
 
-                    //Channel channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, creds.ToChannelCredentials());
-
-                    ImageAnnotatorClient client = ImageAnnotatorClient.Create();
+                    ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);
                     SafeSearchAnnotation annotation = client.DetectSafeSearch(image);
                     // Each category is classified as Very Unlikely, Unlikely, Possible, Likely or Very Likely.
                     System.Diagnostics.Debug.WriteLine($"Adult? {annotation.Adult}");
