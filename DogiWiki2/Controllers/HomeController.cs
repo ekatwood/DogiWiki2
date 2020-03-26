@@ -149,7 +149,19 @@ namespace DogiWiki2.Controllers
         }
 
         public ActionResult Upload()
-        {            
+        {
+            try
+            {
+                string[] filePaths = Directory.GetFiles(@"D:\home\site\wwwroot\DogiWiki2\App_Data\");
+                foreach (string i in filePaths)
+                {
+                    ViewBag.ErrorMessage = "0 " + i;
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "1 " + e.Message;
+            }
             return View();
         }
 
