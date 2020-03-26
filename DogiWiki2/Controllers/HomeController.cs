@@ -11,6 +11,9 @@ using System.Drawing.Imaging;
 using System.Threading.Tasks;
 using Google.Cloud.Vision.V1;
 using DogiWiki2.Models;
+using Google.Apis.Auth.OAuth2;
+using Grpc.Auth;
+using Grpc.Core;
 
 namespace DogiWiki2.Controllers
 {
@@ -152,9 +155,9 @@ namespace DogiWiki2.Controllers
         {
             try
             {
-                string[] filePaths = Directory.GetFiles(@"D:\home\site\wwwroot\DogiWiki2\App_Data\");
+                string text = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
 
-                ViewBag.ErrorMessage = filePaths[0];
+                ViewBag.ErrorMessage = text;
 
 
             }
@@ -178,7 +181,7 @@ namespace DogiWiki2.Controllers
                 }
             }
 
-            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
+            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
@@ -199,7 +202,11 @@ namespace DogiWiki2.Controllers
                     stream.Position = 0;
                     Google.Cloud.Vision.V1.Image image = await Google.Cloud.Vision.V1.Image.FromStreamAsync(stream);
 
-                    ImageAnnotatorClient client = ImageAnnotatorClient.Create();
+                    var creds = GoogleCredential.FromFile(@"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
+
+                    Channel channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, creds.ToChannelCredentials());
+
+                    ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);
                     SafeSearchAnnotation annotation = client.DetectSafeSearch(image);
                     // Each category is classified as Very Unlikely, Unlikely, Possible, Likely or Very Likely.
                     System.Diagnostics.Debug.WriteLine($"Adult? {annotation.Adult}");
