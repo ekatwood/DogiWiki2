@@ -153,10 +153,10 @@ namespace DogiWiki2.Controllers
             try
             {
                 string[] filePaths = Directory.GetFiles(@"D:\home\site\wwwroot\DogiWiki2\App_Data\");
-                foreach (string i in filePaths)
-                {
-                    ViewBag.ErrorMessage = "0 " + i;
-                }
+
+                ViewBag.ErrorMessage = filePaths[0];
+
+
             }
             catch (Exception e)
             {
@@ -178,7 +178,7 @@ namespace DogiWiki2.Controllers
                 }
             }
 
-            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", "D:/home/site/wwwroot/DogiWiki2/creds/My First Project-c3d0567c1ad3.json");
+            System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
