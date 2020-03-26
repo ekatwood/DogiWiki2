@@ -152,7 +152,7 @@ namespace DogiWiki2.Controllers
         {
             try
             {
-                string[] filePaths = Directory.GetFiles(@"D:\home\site\wwwroot\creds\");
+                string[] filePaths = Directory.GetFiles(@"D:\home\site\wwwroot\DogiWiki2\SiteImages");
                 foreach(string i in filePaths)
                 {
                     ViewBag.ErrorMessage = "0 " + i;
@@ -162,15 +162,7 @@ namespace DogiWiki2.Controllers
             {
                 ViewBag.ErrorMessage = "1 "+ e.Message;
             }
-            try
-            {
-                string text = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\creds\My First Project-c3d0567c1ad3.json");
-                ViewBag.ErrorMessage = text;
-            }
-            catch (Exception e)
-            {
-                ViewBag.ErrorMessage = "2 " + e.Message;
-            }
+            
             return View();
         }
 
