@@ -150,6 +150,8 @@ namespace DogiWiki2.Controllers
 
         public ActionResult Upload()
         {
+            
+            ViewBag.ErrorMessage = System.Environment.CurrentDirectory;
             return View();
         }
 
