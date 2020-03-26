@@ -153,6 +153,10 @@ namespace DogiWiki2.Controllers
             try
             {
                 string[] filePaths = Directory.GetFiles(@"D:\home\site\wwwroot\creds\");
+                foreach(string i in filePaths)
+                {
+                    ViewBag.ErrorMessage = "0 " + i;
+                }
             }
             catch (Exception e)
             {
@@ -161,6 +165,7 @@ namespace DogiWiki2.Controllers
             try
             {
                 string text = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\creds\My First Project-c3d0567c1ad3.json");
+                ViewBag.ErrorMessage = text;
             }
             catch (Exception e)
             {
