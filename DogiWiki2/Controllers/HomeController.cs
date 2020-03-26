@@ -150,8 +150,22 @@ namespace DogiWiki2.Controllers
 
         public ActionResult Upload()
         {
-            
-            ViewBag.ErrorMessage = Directory.GetCurrentDirectory();
+            try
+            {
+                string[] filePaths = Directory.GetFiles(@"D:\home\site\wwwroot\creds\");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "1 "+ e.Message;
+            }
+            try
+            {
+                string text = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\creds\My First Project-c3d0567c1ad3.json");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = "2 " + e.Message;
+            }
             return View();
         }
 
