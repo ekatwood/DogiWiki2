@@ -153,18 +153,7 @@ namespace DogiWiki2.Controllers
 
         public ActionResult Upload()
         {
-            try
-            {
-                string text = System.IO.File.ReadAllText(@"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
-
-                ViewBag.ErrorMessage = text;
-
-
-            }
-            catch (Exception e)
-            {
-                ViewBag.ErrorMessage = "1 " + e.Message;
-            }
+            
             return View();
         }
 
@@ -172,14 +161,14 @@ namespace DogiWiki2.Controllers
         public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
             //check for naughty words or links
-
+            /*
             foreach (string i in UploadModel.naughtyList){
                 if (model.Name.Contains(i) || model.Description.Contains(i))
                 {
                     ViewBag.ErrorMessage = "No inappropriate language or links, please.";
                     return View();
                 }
-            }
+            }*/
 
             //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
 
@@ -203,6 +192,7 @@ namespace DogiWiki2.Controllers
                     Google.Cloud.Vision.V1.Image image = await Google.Cloud.Vision.V1.Image.FromStreamAsync(stream);
 
                     var creds = GoogleCredential.FromFile(@"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
+                    //var creds = GoogleCredential.FromFile("~/creds/creds.json");
 
                     Channel channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, creds.ToChannelCredentials());
 

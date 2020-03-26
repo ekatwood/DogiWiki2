@@ -212,7 +212,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="creds\My First Project-c3d0567c1ad3.json" />
+    <Content Include="creds\creds.json" />
     <Content Include="App_Data\creds.json" />
     <None Include="Properties\PublishProfiles\DogiWiki - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
