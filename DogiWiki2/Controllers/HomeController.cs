@@ -151,7 +151,7 @@ namespace DogiWiki2.Controllers
         public ActionResult Upload()
         {
             
-            ViewBag.ErrorMessage = System.Environment.CurrentDirectory;
+            ViewBag.ErrorMessage = Directory.GetCurrentDirectory();
             return View();
         }
 
