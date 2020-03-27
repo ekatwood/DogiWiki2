@@ -161,7 +161,7 @@ namespace DogiWiki2.Controllers
         public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
             //check for naughty words or links
-            
+            /*
             foreach (string i in UploadModel.naughtyList){
 
                 string desc;
@@ -175,7 +175,7 @@ namespace DogiWiki2.Controllers
                     ViewBag.ErrorMessage = "No inappropriate language or links, please.";
                     return View();
                 }
-            }
+            }*/
 
             //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
 
