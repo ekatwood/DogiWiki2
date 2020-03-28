@@ -303,3 +303,5 @@ C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Grpc.Core.xml
 C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Grpc.Core.Api.pdb
 C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\Grpc.Core.Api.xml
 C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\System.Interactive.Async.xml
+C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\RestSharp.dll
+C:\Users\erock\Documents\DogiWiki2\DogiWiki2\bin\RestSharp.xml

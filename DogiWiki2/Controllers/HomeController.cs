@@ -14,6 +14,8 @@ using DogiWiki2.Models;
 using Google.Apis.Auth.OAuth2;
 using Grpc.Auth;
 using Grpc.Core;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace DogiWiki2.Controllers
 {
@@ -161,7 +163,7 @@ namespace DogiWiki2.Controllers
         public async Task<ActionResult> Upload(HttpPostedFileBase file, UploadModel model)
         {
             //check for naughty words or links
-            /*
+            
             foreach (string i in UploadModel.naughtyList){
 
                 string desc;
@@ -170,14 +172,12 @@ namespace DogiWiki2.Controllers
                 else
                     desc = model.Description;
 
-                if (model.Name.Contains(i) || model.Description.Contains(i))
+                if (model.Name.Contains(i) || desc.Contains(i))
                 {
                     ViewBag.ErrorMessage = "No inappropriate language or links, please.";
                     return View();
                 }
-            }*/
-
-            //System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", @"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
+            }
 
             Guid guid = Guid.NewGuid();
             String fileNameOfficial = guid.ToString() + ".jpg";
@@ -188,43 +188,6 @@ namespace DogiWiki2.Controllers
             try
             {
                 System.Drawing.Image i = System.Drawing.Image.FromStream(file.InputStream);
-
-                bool runAwayy = false;
-
-                //check for innaprops stuff
-                using (Stream stream = new MemoryStream())
-                {
-                    i.Save(stream, ImageFormat.Jpeg);
-                    stream.Position = 0;
-                    Google.Cloud.Vision.V1.Image image = await Google.Cloud.Vision.V1.Image.FromStreamAsync(stream);
-
-                    var creds = GoogleCredential.FromFile(@"D:\home\site\wwwroot\DogiWiki2\App_Data\creds.json");
-                    //var creds = GoogleCredential.FromFile("~/creds/creds.json");
-                    Channel channel = new Channel(ImageAnnotatorClient.DefaultEndpoint.Host, ImageAnnotatorClient.DefaultEndpoint.Port, creds.ToChannelCredentials());
-
-                    ImageAnnotatorClient client = ImageAnnotatorClient.Create(channel);
-                    SafeSearchAnnotation annotation = client.DetectSafeSearch(image);
-                    // Each category is classified as Very Unlikely, Unlikely, Possible, Likely or Very Likely.
-                    System.Diagnostics.Debug.WriteLine($"Adult? {annotation.Adult}");
-                    System.Diagnostics.Debug.WriteLine($"Spoof? {annotation.Spoof}");
-                    System.Diagnostics.Debug.WriteLine($"Violence? {annotation.Violence}");
-                    System.Diagnostics.Debug.WriteLine($"Medical? {annotation.Medical}");
-
-                    if(annotation.Adult == Likelihood.Possible || annotation.Adult == Likelihood.Likely || annotation.Adult == Likelihood.VeryLikely 
-                        || annotation.Violence == Likelihood.Possible || annotation.Violence == Likelihood.Likely || annotation.Violence == Likelihood.VeryLikely
-                        || annotation.Medical == Likelihood.Possible || annotation.Medical == Likelihood.Likely || annotation.Medical == Likelihood.VeryLikely)
-                    {
-                        runAwayy = true;
-                    }
-                }
-
-                //return error if pic is inapprop
-                if (runAwayy)
-                {
-                    ViewBag.ErrorMessage = "Our algorithm determined your picture may have inappropriate content. Please choose another.";
-
-                    return View();
-                }
 
                 var rotate = RotateFlipType.RotateNoneFlipNone;
 
@@ -297,7 +260,29 @@ namespace DogiWiki2.Controllers
                     }
 
                 }
+
+                //scan image
+                if (imageUploadSuccess)
+                {
+                    string img = "https://dogiwikistorage.blob.core.windows.net/images/" + fileNameOfficial;
+                    var client = new RestClient("https://www.moderatecontent.com/api/v2?url="+ img + "&key=7e69bda3eb8b6204f6dcb964a761a40d");
+                    client.Timeout = -1;
+                    var request = new RestRequest(Method.GET);
+                    IRestResponse response = client.Execute(request);
+
+                    dynamic jsonInfo = JsonConvert.DeserializeObject(response.Content);
+
+                    string rating = jsonInfo.rating_label;
+
+                    if(rating != "everyone")
+                    {
+                        ViewBag.ErrorMessage = "Our algorithm determined your picture may have inappropriate content. Please choose another.";
+
+                        return View();
+                    }
+                }
                 
+
             }
             catch(Exception e) { 
                 System.Diagnostics.Debug.WriteLine("Error with upload: " + e.Message);
